@@ -1,8 +1,20 @@
-steps:
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'us-central1-docker.pkg.dev/enhub-cloud-interns/myapp-docker-repo/myapp-image', '.']
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'us-central1-docker.pkg.dev/enhub-cloud-interns/myapp-docker-repo/myapp-image']
-
-images:
-  - 'us-central1-docker.pkg.dev/enhub-cloud-interns/myapp-docker-repo/myapp-image'
+apiVersion: cloudbuild.googleapis.com/v1
+kind: BuildTrigger
+metadata:
+  name: myapp-trigger
+description: Trigger for building and deploying app to Cloud Run
+triggerTemplate:
+  projectId: enhub-cloud-interns
+  repoName: myapp-repo
+  branchName: '^main$'
+build:
+  serviceAccount: projects/enhub-cloud-interns/serviceAccounts/1064351983714-compute@developer.gserviceaccount.com
+  steps:
+    - name: 'gcr.io/cloud-builders/docker'
+      args: ['build', '-t', 'us-central1-docker.pkg.dev/enhub-cloud-interns/myapp-docker-repo/myapp-image', '.']
+    - name: 'gcr.io/cloud-builders/docker'
+      args: ['push', 'us-central1-docker.pkg.dev/enhub-cloud-interns/myapp-docker-repo/myapp-image']
+  images:
+    - 'us-central1-docker.pkg.dev/enhub-cloud-interns/myapp-docker-repo/myapp-image'
+  options:
+    logging: CLOUD_LOGGING_ONLY
