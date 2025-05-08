@@ -25,3 +25,8 @@ steps:
 
 images:
   - 'us-central1-docker.pkg.dev/enhub-cloud-interns/myapp-docker-repo/myapp-image:$SHORT_SHA'
+  
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+serviceAccount: 1064351983714-compute@developer.gserviceaccount.com
