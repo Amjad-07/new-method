@@ -2,14 +2,16 @@ apiVersion: cloudbuild.googleapis.com/v1
 kind: BuildTrigger
 metadata:
   name: myapp-trigger
-description: Trigger for app build and deploy
+description: Trigger for building and deploying to Cloud Run
+
 triggerTemplate:
   projectId: enhub-cloud-interns
   repoName: myapp-repo
   branchName: '^main$'
+
 filename: cloudbuild.yaml
 
-serviceAccount: 'projects/enhub-cloud-interns/serviceAccounts/1064351983714-compute@developer.gserviceaccount.com'
+serviceAccount: 1064351983714-compute@developer.gserviceaccount.com
 
 options:
   logging: CLOUD_LOGGING_ONLY
