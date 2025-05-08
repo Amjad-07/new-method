@@ -22,6 +22,8 @@ steps:
       - '--region=us-central1'
       - '--delivery-pipeline=myapp-pipeline'
       - '--images=myapp-image=us-central1-docker.pkg.dev/enhub-cloud-interns/myapp-docker-repo/myapp-image:$SHORT_SHA'
+      - '--skaffold-file=skaffold.yaml'  # 🔥 Important: tell it where to find Skaffold config
+      - '--source=.'   
 
 images:
   - 'us-central1-docker.pkg.dev/enhub-cloud-interns/myapp-docker-repo/myapp-image:$SHORT_SHA'
