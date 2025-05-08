@@ -1,0 +1,11 @@
+apiVersion: deploy.cloud.google.com/v1
+kind: Release
+metadata:
+  name: myapp-release
+skaffold:
+  version: "v2beta29"
+  deploy:
+    cloudrun:
+      serviceName: myapp-service
+      region: us-central1
+      image: ...
