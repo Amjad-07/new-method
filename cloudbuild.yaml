@@ -1,31 +1,27 @@
-apiVersion: cloudbuild.googleapis.com/v1
-kind: BuildTrigger
-metadata:
-  name: myapp-trigger
-description: Trigger to build and deploy app to Cloud Run using Cloud Deploy
-triggerTemplate:
-  projectId: enhub-cloud-interns
-  repoName: myapp-repo
-  branchName: '^main$'
-build:
-  steps:
-    - name: 'gcr.io/cloud-builders/docker'
-      args: ['build', '-t', 'us-central1-docker.pkg.dev/enhub-cloud-interns/myapp-docker-repo/myapp-image:$SHORT_SHA', '.']
-    - name: 'gcr.io/cloud-builders/docker'
-      args: ['push', 'us-central1-docker.pkg.dev/enhub-cloud-interns/myapp-docker-repo/myapp-image:$SHORT_SHA']
-    - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-      entrypoint: 'gcloud'
-      args:
-        - 'deploy'
-        - 'releases'
-        - 'create'
-        - 'release-$SHORT_SHA'
-        - '--project=enhub-cloud-interns'
-        - '--region=us-central1'
-        - '--delivery-pipeline=myapp-pipeline'
-        - '--images=myapp-image=us-central1-docker.pkg.dev/enhub-cloud-interns/myapp-docker-repo/myapp-image:$SHORT_SHA'
-  images:
-    - 'us-central1-docker.pkg.dev/enhub-cloud-interns/myapp-docker-repo/myapp-image:$SHORT_SHA'
-  serviceAccount: 'projects/enhub-cloud-interns/serviceAccounts/1064351983714-compute@developer.gserviceaccount.com'
-  options:
-    logging: CLOUD_LOGGING_ONLY
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'us-central1-docker.pkg.dev/enhub-cloud-interns/myapp-docker-repo/myapp-image:$SHORT_SHA'
+      - '.'
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'us-central1-docker.pkg.dev/enhub-cloud-interns/myapp-docker-repo/myapp-image:$SHORT_SHA'
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args:
+      - 'deploy'
+      - 'releases'
+      - 'create'
+      - 'release-$SHORT_SHA'
+      - '--project=enhub-cloud-interns'
+      - '--region=us-central1'
+      - '--delivery-pipeline=myapp-pipeline'
+      - '--images=myapp-image=us-central1-docker.pkg.dev/enhub-cloud-interns/myapp-docker-repo/myapp-image:$SHORT_SHA'
+
+images:
+  - 'us-central1-docker.pkg.dev/enhub-cloud-interns/myapp-docker-repo/myapp-image:$SHORT_SHA'
